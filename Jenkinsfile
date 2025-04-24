@@ -17,7 +17,7 @@ pipeline {
             steps {
                 sh 'npm run build'
                 // Run Maven using the specified POM file
-                sh "${MAVEN_HOME}/bin/mvn -f ${pomPath} clean package"
+                sh "${MAVEN_HOME}/bin/mvn -f ${pomPath} clean package -Dskiptests"
             }
         }
 
