@@ -7,7 +7,7 @@ pipeline {
 
     environment {
         CHROME_BIN = '/usr/bin/google-chrome'  // Adjust path if different
-        MAVEN_HOME = tool 'Maven 3.8.5'
+        MAVEN_HOME = tool 'Maven 3.9.9'
         // Define your custom POM file path
         pomPath = 'api/pom.xml'
     }
