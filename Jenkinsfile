@@ -31,7 +31,7 @@ pipeline {
         stage('Run Unit Tests') {
             steps {
                 sh 'npm run test:headless'
-                sh '${MAVEN_HOME}/bin/mvn -f ${pomPath} test" 
+                sh "${MAVEN_HOME}/bin/mvn -f ${pomPath} test"
             }
         }
 
