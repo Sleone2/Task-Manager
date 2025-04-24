@@ -43,5 +43,11 @@ pipeline {
                 sh 'npm run e2e:headless'
             }
         }
+        
+        post {
+            always {
+                junit 'build/reports/**/*.xml'
+            }
+        }
     }
 }
