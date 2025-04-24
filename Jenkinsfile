@@ -39,6 +39,7 @@ pipeline {
             steps {
                 sh 'npm run serve'
                 sh 'npm run e2e:headless'
+                sh 'npm run deploy'
             }
         }
     }
