@@ -10,11 +10,9 @@ pipeline {
     }
 
     stages {
-        stage('Clone repo') {
+        stage('Build') {
             steps {
-                git url: 'https://github.com/St-Cloud-State-University-org/ExpenseTracker670.git',
-                    branch: 'main',
-                    credentialsId: 'd5483b8e-cfa6-4ea9-8d83-be36d73a2b0e'
+                sh 'npm run build'
             }
         }
 
