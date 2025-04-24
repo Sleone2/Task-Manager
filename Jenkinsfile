@@ -7,13 +7,17 @@ pipeline {
 
     environment {
         CHROME_BIN = '/usr/bin/google-chrome'  // Adjust path if different
+        MAVEN_HOME = tool 'Maven 3.8.5'
+        // Define your custom POM file path
+        pomPath = 'api/pom.xml'
     }
 
     stages {
         stage('Build') {
             steps {
                 sh 'npm run build'
-                sh 'mvn clean package'
+                // Run Maven using the specified POM file
+                sh "${MAVEN_HOME}/bin/mvn -f ${pomPath} clean package"
             }
         }
 
