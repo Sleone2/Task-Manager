@@ -29,23 +29,16 @@ pipeline {
             }
         }
 
-        stage('Build') {
-            steps {
-                sh 'npm run build'
-            }
-        }
-
         stage('Run End-2-End Tests') {
             steps {
                 sh 'npm run serve'
                 sh 'npm run e2e:headless'
             }
         }
-        
-        post {
+    }
+    post {
             always {
                 junit 'build/reports/**/*.xml'
             }
         }
-    }
 }
