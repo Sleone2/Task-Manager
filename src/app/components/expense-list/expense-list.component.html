@@ -1,0 +1,126 @@
+<div class="container mt-4">
+  <div class="row mb-4">
+    <div class="col-md-4">
+      <div class="card bg-primary text-white">
+        <div class="card-body">
+          <h5 class="card-title">Total Balance</h5>
+          <h2 class="card-text">${{ totalBalance | number : "1.2-2" }}</h2>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card bg-success text-white">
+        <div class="card-body">
+          <h5 class="card-title">Total Income</h5>
+          <h2 class="card-text">
+            ${{
+              expenses
+                | filter : "type" : "income"
+                | sum : "amount"
+                | number : "1.2-2"
+            }}
+          </h2>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card bg-danger text-white">
+        <div class="card-body">
+          <h5 class="card-title">Total Expenses</h5>
+          <h2 class="card-text">
+            ${{
+              expenses
+                | filter : "type" : "expense"
+                | sum : "amount"
+                | number : "1.2-2"
+            }}
+          </h2>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card shadow">
+    <div class="card-header">
+      <h5 class="mb-0">Transaction History</h5>
+    </div>
+    <div class="card-body">
+      <table mat-table [dataSource]="expenses" class="w-100">
+        <ng-container matColumnDef="date">
+          <th mat-header-cell *matHeaderCellDef>Date</th>
+          <td mat-cell *matCellDef="let expense">
+            {{ expense.date | date : "short" }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="description">
+          <th mat-header-cell *matHeaderCellDef>Description</th>
+          <td mat-cell *matCellDef="let expense">{{ expense.description }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="category">
+          <th mat-header-cell *matHeaderCellDef>Category</th>
+          <td mat-cell *matCellDef="let expense">{{ expense.category }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="amount">
+          <th mat-header-cell *matHeaderCellDef>Amount</th>
+          <td
+            mat-cell
+            *matCellDef="let expense"
+            [ngClass]="getAmountClass(expense.type)"
+          >
+            {{ expense.type === "income" ? "+" : "-" }}${{
+              expense.amount | number : "1.2-2"
+            }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="type">
+          <th mat-header-cell *matHeaderCellDef>Type</th>
+          <td mat-cell *matCellDef="let expense">
+            <span
+              [class]="
+                expense.type === 'income'
+                  ? 'badge bg-success'
+                  : 'badge bg-danger'
+              "
+            >
+              {{ expense.type | titlecase }}
+            </span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>Actions</th>
+          <td mat-cell *matCellDef="let expense">
+            <button
+              mat-icon-button
+              color="primary"
+              (click)="openEditModal(expense)"
+            >
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button
+              mat-icon-button
+              color="warn"
+              (click)="deleteExpense(expense.id!)"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </div>
+  </div>
+
+  <app-expense-edit-modal
+    [isOpen]="isEditModalOpen"
+    [expense]="selectedExpense"
+    (closeModal)="closeEditModal()"
+    (save)="handleExpenseUpdate($event)"
+  ></app-expense-edit-modal>
+</div>
